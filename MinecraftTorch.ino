@@ -5,7 +5,7 @@
 /* Platforms: Trinket                                                */
 /*-------------------------------------------------------------------*/
 /* Description:                                                      */
-/* Flickering tourch light effect utilising WS2812 LEDs              */
+/* Flickering torch light effect utilising WS2812 LEDs               */
 /*                                                                   */
 /*-------------------------------------------------------------------*/
 /* License:                                                          */
