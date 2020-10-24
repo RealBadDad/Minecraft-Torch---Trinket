@@ -7,6 +7,7 @@ https://realbaddad.com/minecraft-torch-flickering-lamp/
 
 Visit our blog to see other projects we have completed.
 
+ESP8266 WEB controlled light Template.
 https://realbaddad.com/esp8266_lighting_template/
 
 Overwatch Light -
