@@ -2,6 +2,7 @@
 Flickering Minecraft torch light on a Trinket and WS2812 LEDs.
 
 https://realbaddad.com/minecraft-torches/
+
 https://realbaddad.com/minecraft-torch-flickering-lamp/
 
 Visit our blog to see other projects we have completed.
