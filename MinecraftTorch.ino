@@ -1,11 +1,11 @@
 /*-------------------------------------------------------------------*/
-/* 24th Oct 2020                                                     */
+/* 25th Oct 2020                                                     */
 /* Project: Minecraft Torch                                          */
 /* Author: RealBadDad                                                */
 /* Platforms: Trinket                                                */
 /*-------------------------------------------------------------------*/
 /* Description:                                                      */
-/* Flickering torch light effect utilising WS2812 LEDs               */
+/* Flickering tourch light effect utilising WS2812 LEDs              */
 /*                                                                   */
 /*-------------------------------------------------------------------*/
 /* License:                                                          */
@@ -48,23 +48,65 @@ const int MaxBrightness    = 255;
 const int MinBrightness    = 10;
 const int DelayMin         = 30;
 const int DelayMax         = 200;
+
+/* Application delay timer variables                                 */
+/* StartTimeMillis will be loaded with the current millisecond       */
+/* counter value when a delay is initiated. The requested delay      */
+/* will be stored in ReqDelayMillis                                  */
+struct DelaySettingsStruct {
+  unsigned long StartTimeMillis; 
+  unsigned long ReqDelayMillis;
+};
+DelaySettingsStruct DelaySettings = {0, 0};
                                
 /*-------------------------------------------------------------------*/
 /* setup                                                             */
 /* Sets up the trinket and LED strip.                                */
 /*-------------------------------------------------------------------*/
 void setup() {
+  /*Start LED library*/
   LedStrip.Begin();
+  /*Update and clear all data stored in LEDs*/
   LedStrip.Show(); 
+  /*Initiate delay timer, loads current millis into variable*/
+  SetDelay(0);
 }
-
 
 /*-------------------------------------------------------------------*/
 /* loop                                                              */
 /* Main program loop - Only the call to the flicler routin in it     */
 /*-------------------------------------------------------------------*/
-void loop() {
+void loop() {       
   Flicker();   
+}
+
+/*-------------------------------------------------------------------*/
+/* SetDelay                                                          */
+/* Sets a delay timer for the application in milli seconds           */
+/*-------------------------------------------------------------------*/
+void SetDelay(int req_delay)
+{
+  DelaySettings.StartTimeMillis = millis();
+  DelaySettings.ReqDelayMillis = req_delay;
+}
+
+/*-------------------------------------------------------------------*/
+/* SetDelay                                                          */
+/* Checks if the delay has expired and returns true if it has        */
+/*-------------------------------------------------------------------*/
+bool DelayExpired(void)
+{
+  /*Check if the required delay has expired*/
+  if ((millis() - DelaySettings.StartTimeMillis) >= DelaySettings.ReqDelayMillis)
+  {
+    /*Delay has expired*/
+    return(true);
+  }
+  else
+  {
+    /*Delay has not expired*/
+    return(false);
+  }
 }
 
 /*-------------------------------------------------------------------*/
@@ -75,12 +117,17 @@ void loop() {
 /*-------------------------------------------------------------------*/
 void Flicker(void) 
 {  
-    /*Define a new random brightness level for the LED being edited*/
-    int NewLevel = random(MinBrightness,MaxBrightness);
-    /*Set the LEDs colour and brightness*/
-    LedStrip.SetPixelColor(random(LedStrip.PixelCount()), RgbColor(NewLevel*RED_LEVEL/255, NewLevel*GREEN_LEVEL/255, NewLevel*BLUE_LEVEL/255));
-    /* Update all the LEDs data */
-    LedStrip.Show();
-    /* Random delay to setting next LED level to give a more realistic uneaven update rate */
-    delay(random(DelayMin, DelayMax));  
+    /*Check if the delay timer has expired*/
+    if(DelayExpired() == true)
+    {
+      /*Define a new random brightness level for the LED being edited*/
+      int NewLevel = random(MinBrightness,MaxBrightness);
+      /*Set the LEDs colour and brightness*/
+      LedStrip.SetPixelColor(random(LedStrip.PixelCount()), RgbColor(NewLevel*RED_LEVEL/255, NewLevel*GREEN_LEVEL/255, NewLevel*BLUE_LEVEL/255));
+      /* Update all the LEDs data */
+      LedStrip.Show();
+      /*Set new random delay to setting next LED level this gives*/  
+      /*a more realistic uneaven update rate*/
+      SetDelay(random(DelayMin, DelayMax));  
+    }
 }
