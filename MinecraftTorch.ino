@@ -15,7 +15,7 @@
 
 /* XXXX->EDIT REQUIRED HERE<-XXXX - LED hardware                     */
 /* Make sure you alter these settings for the hardware you are using */
-const uint16_t  PixelCount = 8;
+const uint16_t  PixelCount = 9;
 
 /* XXXX->EDIT REQUIRED HERE<-XXXX                                    */
 /* Define where you have wired the data pin of the LEDs              */
